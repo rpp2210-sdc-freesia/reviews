@@ -1,0 +1,24 @@
+services:
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: myusername
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: reviews
+    ports:
+      - 5432:5432
+    volumes:
+      - ${PWD}/product_data:/docker-entrypoint-initdb.d/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    ports:
+      - 3000:3000
+
+volumes:
+  postgres:
+    driver: local
